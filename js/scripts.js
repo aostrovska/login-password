@@ -15,7 +15,7 @@ async function request(url) {
 		},
 		redirect: 'follow', // manual, *follow, error
 		referrerPolicy: 'no-referrer', // no-referrer, *client
-		body: body: JSON.stringify(body)// body data type must match "Content-Type" header
+		body: JSON.stringify(body)// body data type must match "Content-Type" header
 	  });
 	  let inf = await res;
 		console.log(inf);
