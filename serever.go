@@ -2,11 +2,23 @@ package main
 
 import (
 	"net/http"
-	//"io"
-//	"io/ioutil"
-//	"fmt"
+	"crypto/sha256"
+	"io"
+	"io/ioutil"
+	"fmt"
 )
-var id []int
+
+type Session(){
+	Id int
+	UserId int
+	idAdress string 
+	OpenedDate string
+	Duration string
+	ExpirationDate  string
+}
+
+var session []Session 
+var idn int
 
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -16,29 +28,32 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 
 func Handler(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
-	/*pas := sha256.New()
-	pas.Write([]byte(//password))
-	if (//login == "login")&&(//pas.Sum(nil) == ae.....){
-		//разрешить доступ 
+	pas := sha256.New()
+	data, err := ioutil.ReadAll(req.Body)
+	req.Body.Close()
+	pas.Write([]byte(data))
+	if (data == "login")&&(pas.Sum(nil) == "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"){
+		session[len(session)] = {1, 1, "id1029e", "17.04.2021", "3", "18.04.2021"}
+		idn = 1
 	}else{
 		io.WriteString(w, "unsuccessful login")
-	}*/
+	}
 	
 }
 
 func Handler2(w http.ResponseWriter, req *http.Request) {
-	/*if (correctID(idn)){
+	if (correctID(idn)){
 		io.WriteString(w, "you succcessfuly gained data")
 	}else{
 		io.WriteString(w, "you unsucccessfuly gained data")
-	}*/
+	}
 
 
 }
 
 func correctID(idn int) bool{
-	for i := 0; i< len(id); i++{
-		if idn == id[i]{
+	for i := 0; i< len(session); i++{
+		if idn == session[i].Id{
 			return true 
 		}
 	}
