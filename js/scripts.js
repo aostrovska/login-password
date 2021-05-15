@@ -1,9 +1,10 @@
+var sesId;
+
 async function request(url) {
 	var body = {
-			"login" : document.getElementById("login").value,
-			"pass" : document.getElementById("password").value
+			"username" : document.getElementById("username").value,
+			"password" : document.getElementById("password").value
 		}
-	if (data == "POST"){
 		let res = await fetch(url, {
 		method: 'POST', // *GET, POST, PUT, DELETE, etc.
 		mode: 'cors', // no-cors, *cors, same-origin
@@ -22,14 +23,42 @@ async function request(url) {
 	
 	let jso = await res.text();
 		document.getElementById("resp").innerHTML = jso;
-	}
+    
+    let h = await res.headers;
+    console.log(h)
+
+    token = await h.get("SessionId")
+    console.log(sesId)
+
+	
+}
+async function  request2(url) {
+		let res = await fetch(url, {
+		method: 'GET', // *GET, POST, PUT, DELETE, etc.
+		mode: 'cors', // no-cors, *cors, same-origin
+		cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: 'same-origin', // include, *same-origin, omit
+		headers: {
+		  'Content-Type': 'application/json',
+		  'SessionId': sesId
+		  // 'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		redirect: 'follow', // manual, *follow, error
+		referrerPolicy: 'no-referrer', // no-referrer, *client
+	  });
+	  let inf = await res;
+		console.log(inf);
+	
+	let jso = await res.text();
+		document.getElementById("resp").innerHTML = jso;
+
 	
 }
 
 function log() {
-		request("http://localhost:8080/");
+		request("http://localhost:8080/login");
 }
 
 function dat() {
-	//	request(document.getElementById("url").value, document.getElementById("body").value);
+		request2("http://localhost:8080/data");
 }
